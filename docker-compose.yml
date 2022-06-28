@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_DB: "payment"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "root"
+    ports:
+      - "5433:5432"
+    volumes:
+    - ./pgdata:/var/lib/postgresql/data
+
+  sonarqube:
+    container_name: sonarqube
+    image: sonarqube
+    ports:
+    - "9000:9000"
+    volumes:
+    - sonarqube_conf:/opt/sonarqube/conf
+    - sonarqube_data:/opt/sonarqube/data
+    - sonarqube_extensions:/opt/sonarqube/extensions
+
+volumes:
+  sonarqube_conf:
+  sonarqube_data:
+  sonarqube_extensions:

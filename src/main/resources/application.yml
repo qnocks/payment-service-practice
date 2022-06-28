@@ -1,0 +1,55 @@
+server:
+  port: 8081
+  error:
+    include-message: always
+    include-stacktrace: on_param
+
+spring:
+  application:
+    name: payment-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/payment
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate.format_sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+app:
+  replenish:
+    threshold: 2
+    cron: '*/30 * * * * *'
+
+  exception:
+    trace: true
+
+  auth:
+    jwt:
+      token:
+        access:
+          secret: ${auth.jwt.secret}
+          expired: ${auth.jwt.expired}
+        refresh:
+          expired: ${auth.refresh.expired}
+          cron: '1 * * * * *'
+    session:
+      cron: '*/30 * * * * *'
+
+  cors:
+    origins: 'http://localhost:4200'
